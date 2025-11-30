@@ -1,56 +1,47 @@
 #include "RTE_Components.h"
 #include CMSIS_device_header
+#include <stdio.h>
 
-void delay () {
-	volatile uint32_t count = 4323;
-	while (count--)
-	__NOP();
-}
 
 int main() {	
-	// PA5:640Hz, PA10:1280Hz
+	volatile uint32_t StartUpCounter = 0, HseStatus = 0;
 	
-	// addresses of registers for PA5
-	uint32_t* _APB2ENR = (uint32_t*) (0x40021018);
-	uint32_t* _GPIOA_CRL = (uint32_t*) (0x40010800);
-	uint32_t* _GPIOA_BSRR = (uint32_t*) (0x40010810);
-	uint32_t* _GPIOA_BRR = (uint32_t*) (0x40010814);
+	// check default clock frequency
+	SystemCoreClockUpdate();
+	ITM_SendChar('\n');
+	printf("Start clk=%d Hz\n", SystemCoreClock);
 	
-	// enable GPIOA (2th bit)
-	*_APB2ENR |= 1 << 2;
+	// enable HSE
+	SET_BIT(RCC -> CR, RCC_CR_HSEON);
 	
-	// setup PA5 in configuration register low
-	*_GPIOA_CRL &= 0xFF0FFFFF;
-	*_GPIOA_CRL |= 0x00200000;	
+	do {
+		HseStatus = RCC -> CR & RCC_CR_HSERDY;
+		StartUpCounter++;
+	} while ((HseStatus == 0) && (StartUpCounter != 0x5000));
 	
-	// setup PA10 in configuration register high
-	GPIOA->CRH &= ~(GPIO_CRH_MODE10 | GPIO_CRH_CNF10);
-	SET_BIT(GPIOA->CRH, GPIO_CRH_MODE10_1);
-	
-	
-	// bitmask of PA5 for BRR/BSRR
-	uint32_t PA5_BIT = 1 << 5;
-	
-	for (;;) {
-		// PA5 = 1; PA10 = 1
-		* _GPIOA_BSRR = PA5_BIT;
-		GPIOA->BSRR = GPIO_BSRR_BS10;
-		delay();
+	// check if hse ready
+	if ((RCC->CR & RCC_CR_HSERDY) != RESET)
+	{
+		// set up FLASH - commands prefetch latency
+		// 000: Zero wait state, if 0 < HCLK <= 24 MHz -> FLASH_ACR_LATENCY_0
+		// 001: One wait state, if 24 MHz < HCLK <= 48MHz ->  FLASH_ACR_LATENCY_1
+		// 010: Two wait state, if 48 MHz < HCLK <= 72MHz ->  FLASH_ACR_LATENCY_2
+		//   0: Prefetch is disabled
+		//	 1: Prefetch is enabled -> FLASH_ACR_PRFTBE
+		FLASH -> ACR = FLASH_ACR_PRFTBE | FLASH_ACR_LATENCY_2;
 		
-		// PA5 = 1; PA10 = 0
-		* _GPIOA_BSRR = PA5_BIT;
-		GPIOA->BRR = GPIO_BRR_BR10;
-		delay();			
+		// HCLK = SYSCLK / ...
+		// 1011: SYSCLK divided by 16 -> RCC_CFCR_HPRE_DIV16
+		RCC->CFGR |= RCC_CFGR_HPRE_DIV16; // AHB Pre = 16 by var
 		
-		// PA5 = 0; PA10 = 1
-		* _GPIOA_BRR = PA5_BIT;
-		GPIOA->BSRR = GPIO_BSRR_BS10;
-		delay();		
-		
-		// PA5 = 0; PA10 = 0
-		* _GPIOA_BRR = PA5_BIT;
-		GPIOA->BRR = GPIO_BRR_BR10;
-		delay();	
+		// set up PLL to 72MHz = 8 MHz (HSE) * 9
 	}
+	else
+	{
+			// HSE is not ready
+			while(1){}
+	}
+	
+	for(;;){}
 	return 0;
 }
