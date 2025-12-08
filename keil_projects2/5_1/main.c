@@ -26,7 +26,7 @@ int main()
 	RCC_ClocksTypeDef RCC_ClockFreq;
 	RCC_GetClocksFreq(&RCC_ClockFreq);
 	printf(
-		"SYSCLK=%dHz, HCLK=%dHz, PCLK=%dHz, PLCK2=%dHz",
+		"SYSCLK=%dHz, HCLK=%dHz, PCLK=%dHz, PLCK2=%dHz\n",
 		RCC_ClockFreq.SYSCLK_Frequency,
 		RCC_ClockFreq.HCLK_Frequency,
 		RCC_ClockFreq.PCLK1_Frequency,
@@ -45,15 +45,7 @@ int main()
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	
-	// allow GPIO A,C,B work
-	//RCC->APB2ENR|=RCC_APB2ENR_IOPAEN|RCC_APB2ENR_IOPCEN|RCC_APB2ENR_IOPBEN; 
-	
-	//PC13 on output
-	//GPIOC->CRH &= ~(GPIO_CRH_MODE13 | GPIO_CRH_CNF13);
-	//SET_BIT(GPIOC->CRH, GPIO_CRH_MODE13);
-	
-	//while(1){}
+
 		
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
@@ -71,21 +63,6 @@ int main()
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	
 	EXTI_Config();
-	
-//	while(1) {
-//			if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0)==0) {
-//				printf("%9i press PB0\n", cnt++);
-//			}
-//			if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1)==0) {
-//				printf("%9i press PA1\n", cnt++);
-//			}
-//			if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3)==0) {
-//				printf("%9i press PA3\n", cnt++);
-//			}
-//			if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4)==0) {
-//				printf("%9i press PB4\n", cnt++);
-//			}
-//	}
 	
 	while(1){}
 	return 0;

@@ -64,14 +64,14 @@ int main(void) {
 	
 	//NVIC_SetPriorityGrouping(NVIC_PriorityGroup_3);
 	// by var 4: 1 bit for sub-priority(1-0), 3 for priority (0-7)
-	//NVIC_SetPriorityGrouping(4);
+	NVIC_SetPriorityGrouping(4);
 	priGroup = NVIC_GetPriorityGrouping();
 	printf("Priority Grouping=%d\r\n", priGroup);
 
-	NVIC_SetPriority(EXTI0_IRQn, 111);	
-//	NVIC_SetPriority(
-//		EXTI0_IRQn, 
-//		NVIC_EncodePriority(priGroup, 4, 0));
+	//NVIC_SetPriority(EXTI0_IRQn, 111);	
+	NVIC_SetPriority(
+		EXTI0_IRQn, 
+		NVIC_EncodePriority(priGroup, 4, 0));
 		
 	NVIC_DecodePriority(
 		NVIC_GetPriority(EXTI0_IRQn), 
@@ -83,10 +83,10 @@ int main(void) {
 		PreemptPriority,
 		SubPriority) ;
 
-	NVIC_SetPriority(EXTI1_IRQn, 126) ;
-	//NVIC_SetPriority(
-	//	EXTI1_IRQn, 
-	//	NVIC_EncodePriority(priGroup, 3, 1));
+	//NVIC_SetPriority(EXTI1_IRQn, 126) ;
+	NVIC_SetPriority(
+		EXTI1_IRQn, 
+		NVIC_EncodePriority(priGroup, 3, 1));
 		
 	NVIC_DecodePriority(
 		NVIC_GetPriority(EXTI1_IRQn), 
@@ -98,10 +98,10 @@ int main(void) {
 		PreemptPriority, 
 		SubPriority);
 	
-	NVIC_SetPriority(EXTI3_IRQn, 140);	
-	//NVIC_SetPriority(
-	//	EXTI3_IRQn, 
-	//	NVIC_EncodePriority(priGroup, 3, 0));
+	//NVIC_SetPriority(EXTI3_IRQn, 140);	
+	NVIC_SetPriority(
+		EXTI3_IRQn, 
+		NVIC_EncodePriority(priGroup, 3, 0));
 		
 	NVIC_DecodePriority(
 		NVIC_GetPriority(EXTI3_IRQn), 
@@ -113,10 +113,10 @@ int main(void) {
 		PreemptPriority,
 		SubPriority);
 	
-	NVIC_SetPriority(EXTI4_IRQn, 125);
-	//NVIC_SetPriority(
-	//	EXTI4_IRQn, 
-	//	NVIC_EncodePriority(priGroup, 2, 1));
+	//NVIC_SetPriority(EXTI4_IRQn, 125);
+	NVIC_SetPriority(
+		EXTI4_IRQn, 
+		NVIC_EncodePriority(priGroup, 2, 1));
 		
 	NVIC_DecodePriority(
 		NVIC_GetPriority(EXTI4_IRQn), 
