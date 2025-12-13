@@ -1,0 +1,56 @@
+[Signal 3]
+DispName=TIM1cnt >> 11
+PlotType=0
+Color=255
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=937.
+Mask=-1
+Offset=0
+Adaptive=0
+DispNumber=3
+HeightFactor=0.25
+[Signal 4]
+DispName=TIM4cnt
+PlotType=0
+Color=32768
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=421.
+Mask=-1
+Offset=0
+Adaptive=0
+DispNumber=4
+HeightFactor=0.25
+[Signal 1]
+DispName=PORTB >> 12
+PlotType=1
+Color=0
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=65535.
+Mask=32
+Offset=5
+Adaptive=0
+DispNumber=1
+HeightFactor=0.25
+[Signal 2]
+DispName=PORTA
+PlotType=1
+Color=0
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=65535.
+Mask=2048
+Offset=11
+Adaptive=0
+DispNumber=2
+HeightFactor=0.25
