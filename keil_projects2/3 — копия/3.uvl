@@ -1,0 +1,28 @@
+[Signal 2]
+DispName=PORTA
+PlotType=1
+Color=32768
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=65535.
+Mask=32
+Offset=5
+Adaptive=0
+DispNumber=1
+HeightFactor=0.5
+[Signal 3]
+DispName=PORTA >> 5
+PlotType=1
+Color=8388608
+ValHex=0
+MinDec=0
+MinVal=0.
+MaxDec=0
+MaxVal=65535.
+Mask=1024
+Offset=10
+Adaptive=0
+DispNumber=2
+HeightFactor=0.5
